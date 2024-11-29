@@ -1,7 +1,6 @@
 package bet.dota.betting.service;
 
 import bet.dota.betting.model.Odds;
-import bet.dota.betting.model.User;
 
 import java.math.BigDecimal;
 import java.util.List;
