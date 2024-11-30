@@ -4,6 +4,7 @@ import bet.dota.betting.model.Bet;
 
 import bet.dota.betting.service.BetService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class BetController {
     }
 
     @PostMapping("save_bet")
-    public Bet saveMatch(@RequestBody Bet bet) {
+    public Bet saveBet(@RequestBody Bet bet) {
         return service.saveBet(bet);
     }
 
@@ -30,16 +31,18 @@ public class BetController {
     }
 
     @PutMapping("update_bet")
-    public Bet updateMatch(@RequestBody Bet bet) {
+    public Bet updateBet(@RequestBody Bet bet) {
         return service.updateBet(bet);
     }
 
     @DeleteMapping("delete_bet/{id}")
-    public void deleteMatch(@PathVariable Long id) {
+    public void deleteBet(@PathVariable Long id) {
         service.deleteBet(id);
     }
 
-    public void placeBet() {
-        return;
+    @PostMapping("/place")
+    public ResponseEntity<Bet> placeBet(@RequestBody Bet bet) {
+        Bet placedBet = service.placeBet(bet);
+        return ResponseEntity.ok(placedBet);
     }
 }

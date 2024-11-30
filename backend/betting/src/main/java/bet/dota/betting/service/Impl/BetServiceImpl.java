@@ -7,6 +7,7 @@ import bet.dota.betting.repository.BetRepository;
 import bet.dota.betting.repository.OddsRepository;
 import bet.dota.betting.repository.UserRepository;
 import bet.dota.betting.service.BetService;
+import bet.dota.betting.service.OddsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.List;
 public class BetServiceImpl implements BetService {
     private final BetRepository betRepository;
     private final UserRepository userRepository;
-    private final OddsRepository oddsRepository;
+    private final OddsService oddsService;
 
     @Override
     public List<Bet> getUserBets() {
@@ -72,40 +73,8 @@ public class BetServiceImpl implements BetService {
 
         Bet savedBet = betRepository.save(bet);
 
-        updateOddsForMatch(bet.getMatchId());
+        oddsService.updateOddsForMatch(bet.getMatchId());
 
         return savedBet;
-    }
-
-    private void updateOddsForMatch(Long matchId) {
-        List<Bet> betsOnMatch = betRepository.findByMatchId(matchId);
-
-        BigDecimal totalStakesTeamA = BigDecimal.ZERO;
-        BigDecimal totalStakesTeamB = BigDecimal.ZERO;
-
-        for (Bet bet : betsOnMatch) {
-            if (bet.getTeamId() == 1) {
-                totalStakesTeamA = totalStakesTeamA.add(bet.getAmount());
-            } else if (bet.getTeamId() == 2) {
-                totalStakesTeamB = totalStakesTeamB.add(bet.getAmount());
-            }
-        }
-
-        BigDecimal totalStakes = totalStakesTeamA.add(totalStakesTeamB);
-
-        if (totalStakes.compareTo(BigDecimal.ZERO) > 0) {
-            BigDecimal oddsTeamA = BigDecimal.ONE.add(totalStakesTeamB.divide(totalStakes, 2, RoundingMode.HALF_UP));
-            BigDecimal oddsTeamB = BigDecimal.ONE.add(totalStakesTeamA.divide(totalStakes, 2, RoundingMode.HALF_UP));
-
-            Odds odds = oddsRepository.findByMatchId(matchId);
-            if (odds == null) {
-                odds = new Odds();
-                odds.setMatchId(matchId);
-            }
-            odds.setTeamAOdds(oddsTeamA);
-            odds.setTeamBOdds(oddsTeamB);
-
-            oddsRepository.save(odds);
-        }
     }
 }

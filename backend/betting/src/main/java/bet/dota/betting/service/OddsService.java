@@ -2,7 +2,6 @@ package bet.dota.betting.service;
 
 import bet.dota.betting.model.Odds;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface OddsService {
@@ -10,7 +9,7 @@ public interface OddsService {
 
     Odds saveOdds(Odds odds);
 
-    Odds getOddsById(Long id);
+    //Odds getOddsById(Long id);
 
     Odds updateOdds(Odds odds);
 
@@ -18,5 +17,5 @@ public interface OddsService {
 
     Odds getOddsByMatchId(Long matchId);
 
-    void updateOddsForMatch(Long matchId, BigDecimal totalRadiantBets, BigDecimal totalDireBets);
+    void updateOddsForMatch(Long matchId);
 }

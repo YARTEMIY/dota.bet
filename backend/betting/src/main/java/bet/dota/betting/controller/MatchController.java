@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping("/api/v1/matches")
 @AllArgsConstructor
 public class MatchController {
-
     private MatchService service;
 
     @GetMapping
