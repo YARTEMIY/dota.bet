@@ -8,6 +8,7 @@ import bet.dota.betting.repository.OddsRepository;
 import bet.dota.betting.repository.UserRepository;
 import bet.dota.betting.service.BetService;
 import bet.dota.betting.service.OddsService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class BetServiceImpl implements BetService {
         return betRepository.save(bet);
     }
 
+    @Transactional
     @Override
     public void deleteBet(Long id) {
         betRepository.deleteById(id);
@@ -61,7 +63,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public Bet placeBet(Bet bet) {
-        User user = userRepository.findById(Math.toIntExact(bet.getUserId()))
+        User user = userRepository.findById(Math.toIntExact(bet.getUser().getId()))
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         if (user.getBalance().compareTo(bet.getAmount()) < 0) {
@@ -73,7 +75,7 @@ public class BetServiceImpl implements BetService {
 
         Bet savedBet = betRepository.save(bet);
 
-        oddsService.updateOddsForMatch(bet.getMatchId());
+        oddsService.updateOddsForMatch(bet.getMatch().getId());
 
         return savedBet;
     }

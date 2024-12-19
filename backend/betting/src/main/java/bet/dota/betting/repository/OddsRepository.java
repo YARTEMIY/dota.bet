@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OddsRepository extends JpaRepository<Odds, Long> {
     //Odds getOddsById(Long id);
-    void deleteById(Long id);
+    void deleteById(Long matchId);
     Odds findByMatchId(Long matchId);
+
+    Odds getOddsById(Long id);
 }

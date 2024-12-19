@@ -25,10 +25,10 @@ public class OddsController {
         return oddsService.saveOdds(odds);
     }
 
-//    @GetMapping("/{id}")
-//    public Odds getOddsById(@PathVariable Long id) {
-//        return oddsService.getOddsById(id);
-//    }
+    @GetMapping("/{id}")
+    public Odds getOddsById(@PathVariable Long id) {
+        return oddsService.getOddsById(id);
+    }
 
     @PutMapping("update_odds")
     public Odds updateOdds(@RequestBody Odds bet) {

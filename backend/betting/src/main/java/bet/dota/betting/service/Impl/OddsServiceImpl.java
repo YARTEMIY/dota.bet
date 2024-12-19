@@ -5,6 +5,7 @@ import bet.dota.betting.model.Odds;
 import bet.dota.betting.repository.BetRepository;
 import bet.dota.betting.repository.OddsRepository;
 import bet.dota.betting.service.OddsService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -30,16 +31,17 @@ public class OddsServiceImpl implements OddsService {
         return oddsRepository.save(odds);
     }
 
-//    @Override
-//    public Odds getOddsById(Long id) {
-//        return oddsRepository.getOddsById(id);
-//    }
+    @Override
+    public Odds getOddsById(Long id) {
+        return null;
+    }
 
     @Override
     public Odds updateOdds(Odds odds) {
         return oddsRepository.save(odds);
     }
 
+    @Transactional
     @Override
     public void deleteOdds(Long id) {
         oddsRepository.deleteById(id);

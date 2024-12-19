@@ -1,8 +1,6 @@
 package bet.dota.betting.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,8 +9,13 @@ import java.math.BigDecimal;
 @Entity
 public class Odds {
     @Id
-    @GeneratedValue
     private Long matchId;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "match_id")
+    private Match match;
+
     private BigDecimal teamAOdds;
     private BigDecimal teamBOdds;
 }

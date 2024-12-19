@@ -3,6 +3,7 @@ package bet.dota.betting.service.Impl;
 import bet.dota.betting.model.User;
 import bet.dota.betting.repository.UserRepository;
 import bet.dota.betting.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
         return repository.save(user);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         repository.deleteById(id);

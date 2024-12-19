@@ -9,7 +9,7 @@ public interface OddsService {
 
     Odds saveOdds(Odds odds);
 
-    //Odds getOddsById(Long id);
+    Odds getOddsById(Long id);
 
     Odds updateOdds(Odds odds);
 
